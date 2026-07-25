@@ -1216,25 +1216,54 @@ Password set.`
             let result = '';
             
             if (code.includes('CREATE TABLE')) {
-                result = '[OK] Table created successfully';
+                result = '<span style="color: var(--accent);">[OK]</span> Table created successfully';
             } else if (code.includes('INSERT')) {
                 const count = (code.match(/INSERT/g) || []).length;
-                result = `[OK] ${count} row(s) inserted`;
+                result = `<span style="color: var(--accent);">[OK]</span> ${count} row(s) inserted`;
             } else if (code.includes('SELECT')) {
-                result = `+----+-----------+---------------------+\n| id |   name    |       email         |\n+----+-----------+---------------------+\n|  1 |   Alice   | alice@example.com   |\n|  2 |   Bob     | bob@example.com     |\n|  3 |  Charlie  | charlie@example.com |\n+----+-----------+---------------------+\n3 rows in set`;
+                result = `<table style="width: 100%; border-collapse: collapse; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--border);">
+                            <th style="padding: 0.75rem 1rem; text-align: left; color: var(--primary);">id</th>
+                            <th style="padding: 0.75rem 1rem; text-align: left; color: var(--primary);">name</th>
+                            <th style="padding: 0.75rem 1rem; text-align: left; color: var(--primary);">email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <td style="padding: 0.75rem 1rem; color: var(--accent);">1</td>
+                            <td style="padding: 0.75rem 1rem;">Alice</td>
+                            <td style="padding: 0.75rem 1rem; color: var(--text-secondary);">alice@example.com</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <td style="padding: 0.75rem 1rem; color: var(--accent);">2</td>
+                            <td style="padding: 0.75rem 1rem;">Bob</td>
+                            <td style="padding: 0.75rem 1rem; color: var(--text-secondary);">bob@example.com</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <td style="padding: 0.75rem 1rem; color: var(--accent);">3</td>
+                            <td style="padding: 0.75rem 1rem;">Charlie</td>
+                            <td style="padding: 0.75rem 1rem; color: var(--text-secondary);">charlie@example.com</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="margin-top: 1rem; color: var(--text-muted); font-size: 0.85rem;">3 rows in set</div>`;
             } else if (code.includes('UPDATE')) {
-                result = '[OK] 1 row(s) updated';
+                result = '<span style="color: var(--accent);">[OK]</span> 1 row(s) updated';
             } else if (code.includes('DELETE')) {
-                result = '[OK] 1 row(s) deleted';
+                result = '<span style="color: var(--accent);">[OK]</span> 1 row(s) deleted';
             } else if (code.includes('BEGIN')) {
-                result = '[OK] Transaction started\n[OK] 1 row(s) inserted\n[OK] 1 row(s) updated\n[OK] Transaction committed';
+                result = `<span style="color: var(--accent);">[OK]</span> Transaction started
+<span style="color: var(--accent);">[OK]</span> 1 row(s) inserted
+<span style="color: var(--accent);">[OK]</span> 1 row(s) updated
+<span style="color: var(--accent);">[OK]</span> Transaction committed`;
             } else if (code.includes('passwd')) {
-                result = '[OK] Password set successfully';
+                result = '<span style="color: var(--accent);">[OK]</span> Password set successfully';
             } else {
-                result = '[OK] Query executed successfully';
+                result = '<span style="color: var(--accent);">[OK]</span> Query executed successfully';
             }
             
-            output.textContent = result;
+            output.innerHTML = result;
         }
 
         function copyCode() {

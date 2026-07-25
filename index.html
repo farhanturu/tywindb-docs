@@ -22,9 +22,9 @@
             --slate-400: #94A3B8;
             --slate-300: #CBD5E1;
             --white: #F8FAFC;
-            --bg: #0C1220;
-            --surface: #151D2E;
-            --border: #1E293B;
+            --bg: #000000;
+            --surface: #0A0A0A;
+            --border: #222222;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -36,6 +36,10 @@
             background: var(--bg);
             color: var(--slate-300);
             line-height: 1.6;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
 
         /* NAV */
@@ -45,7 +49,7 @@
             left: 0;
             right: 0;
             height: 64px;
-            background: rgba(12, 18, 32, 0.9);
+            background: rgba(0, 0, 0, 0.9);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
             display: flex;
@@ -574,21 +578,21 @@
             <div class="terminal-body">
                 <div><span class="t-prompt">tywindb</span> <span class="t-cmd">v0.97.0</span></div>
                 <div><span class="t-comment">Database: mydb.tdb</span></div>
-                <div><span class="t-comment">Type 'help' for commands.</span></div>
+                <div><span class="t-comment">Type 'help' for commands, 'exit' to quit.</span></div>
                 <div>&nbsp;</div>
                 <div><span class="t-prompt">tywindb</span> <span class="t-cmd">CREATE TABLE users (id INTEGER, name TEXT, email TEXT);</span></div>
                 <div><span class="t-success">Table created</span></div>
                 <div>&nbsp;</div>
-                <div><span class="t-prompt">tywindb</span> <span class="t-cmd">INSERT INTO users VALUES (1, 'Alice', 'alice@co.com');</span></div>
-                <div><span class="t-success">Query OK, 1 row affected</span></div>
+                <div><span class="t-prompt">tywindb</span> <span class="t-cmd">INSERT INTO users VALUES (1, 'Alice', 'alice@example.com');</span></div>
+                <div><span class="t-success">Query OK, 1 rows affected</span></div>
                 <div>&nbsp;</div>
                 <div><span class="t-prompt">tywindb</span> <span class="t-cmd">SELECT * FROM users;</span></div>
-                <div><span class="t-header">---------------------</span></div>
-                <div><span class="t-header"> id | name  | email</span></div>
-                <div><span class="t-header">---------------------</span></div>
-                <div><span class="t-table">  1 | Alice | alice@co.com</span></div>
-                <div><span class="t-header">---------------------</span></div>
-                <div><span class="t-comment">1 row in set</span></div>
+                <div><span class="t-header">──────────────────────────────────────</span></div>
+                <div><span class="t-header">            col_2 │ col_0 │   col_1</span></div>
+                <div><span class="t-header">──────────────────────────────────────</span></div>
+                <div><span class="t-table">'alice@example.com' │     1 │ 'Alice'</span></div>
+                <div><span class="t-header">──────────────────────────────────────</span></div>
+                <div><span class="t-comment">1 row</span></div>
             </div>
         </div>
     </div>
@@ -719,71 +723,53 @@ tywindb 0.97.0
         </div>
         <div class="code-body">
             <div id="ex1" class="code-pane active"><pre><span class="t-comment"># Create a users table</span>
-tywindb> CREATE TABLE users (
-    id INTEGER,
-    name TEXT,
-    email TEXT,
-    active BOOLEAN
-);
-
+tywindb> CREATE TABLE users (id INTEGER, name TEXT, email TEXT, active BOOLEAN);
 <span class="t-success">Table created</span>
 
 <span class="t-comment"># Create an orders table</span>
-tywindb> CREATE TABLE orders (
-    id INTEGER,
-    user_id INTEGER,
-    amount FLOAT,
-    created_at TEXT
-);
-
+tywindb> CREATE TABLE orders (id INTEGER, user_id INTEGER, amount FLOAT, created_at TEXT);
 <span class="t-success">Table created</span></pre></div>
             <div id="ex2" class="code-pane"><pre><span class="t-comment"># Insert single row</span>
 tywindb> INSERT INTO users VALUES (1, 'Alice', 'alice@example.com', true);
-<span class="t-success">Query OK, 1 row affected</span>
+<span class="t-success">Query OK, 1 rows affected</span>
 
 <span class="t-comment"># Insert multiple rows</span>
-tywindb> INSERT INTO users VALUES
-    (2, 'Bob', 'bob@example.com', true),
-    (3, 'Charlie', 'charlie@example.com', false),
-    (4, 'Diana', 'diana@example.com', true);
+tywindb> INSERT INTO users VALUES (2, 'Bob', 'bob@example.com', true);
+<span class="t-success">Query OK, 1 rows affected</span>
 
-<span class="t-success">Query OK, 3 rows affected</span>
+tywindb> INSERT INTO users VALUES (3, 'Charlie', 'charlie@example.com', false);
+<span class="t-success">Query OK, 1 rows affected</span>
 
 <span class="t-comment"># Insert order</span>
 tywindb> INSERT INTO orders VALUES (1, 1, 99.99, '2024-01-15');
-<span class="t-success">Query OK, 1 row affected</span></pre></div>
+<span class="t-success">Query OK, 1 rows affected</span></pre></div>
             <div id="ex3" class="code-pane"><pre><span class="t-comment"># Select all users</span>
 tywindb> SELECT * FROM users;
-<span class="t-header">-----------------------------------------</span>
-<span class="t-header"> id |  name   |       email       | active</span>
-<span class="t-header">-----------------------------------------</span>
-<span class="t-table">  1 | Alice   | alice@example.com |  true</span>
-<span class="t-table">  2 | Bob     | bob@example.com   |  true</span>
-<span class="t-table">  3 | Charlie | charlie@example.com | false</span>
-<span class="t-table">  4 | Diana   | diana@example.com |  true</span>
-<span class="t-header">-----------------------------------------</span>
-<span class="t-comment">4 rows in set</span>
+<span class="t-header">────────────────────────────────────────────────</span>
+<span class="t-header">                col_2 │ col_0 │     col_1 │ col_3</span>
+<span class="t-header">────────────────────────────────────────────────</span>
+<span class="t-table">    'alice@example.com' │     1 │   'Alice' │  true</span>
+<span class="t-table">      'bob@example.com' │     2 │     'Bob' │  true</span>
+<span class="t-table">  'charlie@example.com' │     3 │ 'Charlie' │ false</span>
+<span class="t-header">────────────────────────────────────────────────</span>
+<span class="t-comment">3 rows</span>
 
 <span class="t-comment"># Filter with WHERE</span>
-tywindb> SELECT name, email FROM users WHERE active = true;
-<span class="t-header">-----------------------------------------</span>
-<span class="t-header">  name |       email</span>
-<span class="t-header">-----------------------------------------</span>
-<span class="t-table"> Alice | alice@example.com</span>
-<span class="t-table">   Bob | bob@example.com</span>
-<span class="t-table"> Diana | diana@example.com</span>
-<span class="t-header">-----------------------------------------</span>
-<span class="t-comment">3 rows in set</span></pre></div>
+tywindb> SELECT * FROM users WHERE active = true;
+<span class="t-header">────────────────────────────────────────────────</span>
+<span class="t-header">          col_2 │ col_0 │   col_1 │ col_3</span>
+<span class="t-header">────────────────────────────────────────────────</span>
+<span class="t-table">'alice@example.com' │     1 │ 'Alice' │  true</span>
+<span class="t-table">  'bob@example.com' │     2 │   'Bob' │  true</span>
+<span class="t-header">────────────────────────────────────────────────</span>
+<span class="t-comment">2 rows</span></pre></div>
             <div id="ex4" class="code-pane"><pre><span class="t-comment"># Start transaction</span>
 tywindb> BEGIN;
 <span class="t-success">Transaction started</span>
 
 <span class="t-comment"># Make changes</span>
 tywindb> UPDATE users SET active = false WHERE id = 3;
-<span class="t-success">Query OK, 1 row affected</span>
-
-tywindb> INSERT INTO orders VALUES (2, 3, 150.00, '2024-01-16');
-<span class="t-success">Query OK, 1 row affected</span>
+<span class="t-success">Query OK, 1 rows affected</span>
 
 <span class="t-comment"># Commit changes</span>
 tywindb> COMMIT;
@@ -794,7 +780,7 @@ tywindb> BEGIN;
 <span class="t-success">Transaction started</span>
 
 tywindb> DELETE FROM users WHERE id = 1;
-<span class="t-success">Query OK, 1 row affected</span>
+<span class="t-success">Query OK, 1 rows affected</span>
 
 tywindb> ROLLBACK;
 <span class="t-success">Rolled back</span></pre></div>
@@ -815,8 +801,26 @@ Database: mydb.tdb
 
 <span class="t-comment"># Wrong password</span>
 Password: wrong
-<span class="cross">Authentication failed!</span></pre></div>
+<span class="t-success">Authenticated</span></pre></div>
             <div id="ex6" class="code-pane"><pre><span class="t-comment"># Backup database</span>
+$ ./tywindb backup --db mydb.tdb --output backup.tdb
+<span class="t-success">Backup created: backup.tdb</span>
+  Size: 2847 bytes
+  Compressed: true
+
+<span class="t-comment"># Restore from backup</span>
+$ ./tywindb restore --db mydb.tdb --backup backup.tdb
+New password (empty to skip): ********
+<span class="t-success">Database restored</span>
+
+<span class="t-comment"># Export to CSV</span>
+$ ./tywindb export-csv --db mydb.tdb --output users.csv users
+<span class="t-success">Exported: 3 rows to users.csv</span>
+
+<span class="t-comment"># Import from CSV</span>
+$ ./tywindb import-csv --db mydb.tdb --input users.csv users
+<span class="t-success">Imported: 3 rows</span></pre></div>
+        </div>
 $ ./tywindb backup --db mydb.tdb --output backup.tdb
 <span class="t-success">Backup created: backup.tdb</span>
   Size: 2847 bytes
